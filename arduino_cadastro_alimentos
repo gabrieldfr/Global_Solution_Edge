@@ -1,0 +1,83 @@
+#include <LiquidCrystal.h>
+
+struct Lista {
+  String nome;
+  int peso;
+};
+
+Lista alimentos[] = {
+  {"Arroz", 5},
+  {"Feijao", 5},
+  {"Batata", 4},
+  {"Cenoura", 3},
+  {"Tomate", 3}
+};
+
+int somaPesos = 0;
+int sucessButton = 7;
+int botaoPeso = 6;
+LiquidCrystal lcd_2(13, 12, 11, 10, 9, 8);
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(sucessButton,INPUT);
+  pinMode(botaoPeso,INPUT);
+  lcd_2.begin(16, 2);
+  randomSeed(analogRead(A0)); //gerador de datas de validade aleatórias
+  mensagemInicial();
+}
+
+void loop()
+{     
+  if (digitalRead(sucessButton) == 1)
+  {
+    int indice = random(0, sizeof(alimentos) / sizeof(alimentos[0]));
+    Lista lista = alimentos[indice];
+    lcd_2.clear();
+    lcd_2.setCursor(0,0);
+    lcd_2.print("Alimento:");
+    lcd_2.print(lista.nome);
+    delay(2000);
+    lcd_2.clear();
+    lcd_2.print("Peso:");
+    lcd_2.print(lista.peso);
+    lcd_2.print("kg");
+    somaPesos += lista.peso;
+    delay(2000);
+    int dia = random(1, 31);
+    int mes = random(1, 12);
+    int ano = random(2023, 2026);
+    lcd_2.clear(); // Limpar o display LCD
+    lcd_2.setCursor(0, 0); // Posicionar o cursor na primeira linha
+    lcd_2.print("Data de Validade:");
+    lcd_2.setCursor(0, 1); // Posicionar o cursor na segunda linha
+    lcd_2.print(dia);
+    lcd_2.print("/");
+    lcd_2.print(mes);
+    lcd_2.print("/");
+    lcd_2.print(ano);
+    delay(2000);
+    mensagemInicial();
+  }
+
+  else if (digitalRead(botaoPeso) == 1)
+  {
+    lcd_2.clear();
+    lcd_2.setCursor(0, 0);
+    lcd_2.print("Peso total: ");
+    lcd_2.print(somaPesos);
+    lcd_2.print("kg");
+    delay(2000);
+    mensagemInicial();
+  }
+}
+    
+  
+void mensagemInicial()
+{
+  lcd_2.clear();
+  lcd_2.print("Aproxime o cod");  
+  lcd_2.setCursor(0,1);
+  lcd_2.print("do leitor");  
+}
