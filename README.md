@@ -1,4 +1,4 @@
-# Sistema de armazenamento e cadastro de alimentos
+# Sistema integrado de cadastro e armazenamento de alimentos
 > Status em desenvolvimento ⚠️
 ## Grupo:
 
